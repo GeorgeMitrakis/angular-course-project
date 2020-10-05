@@ -7,6 +7,8 @@ import { Navtab } from '../shared/app-enums.model';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  collapsed:boolean = true;
+  
   @Output() tabClicked = new EventEmitter<Navtab>();
 
   constructor() { }
