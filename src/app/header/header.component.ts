@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Navtab } from '../shared/app-enums.model';
 
 @Component({
   selector: 'app-header',
@@ -6,10 +7,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  @Output() tabClicked = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onRecipesClick() {
+    this.tabClicked.emit(Navtab.recipes)
+  }
+
+  onShoppingListClick(){
+    this.tabClicked.emit(Navtab.shoppingList)
   }
 
 }
