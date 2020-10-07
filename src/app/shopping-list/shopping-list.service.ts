@@ -12,6 +12,8 @@ export class ShoppingListService {
 
   constructor() { }
 
+  getIngredients() { return this.ingredients.slice()}
+
   onIngredientAdded(ingredient: Ingredient){
     this.ingredients.push(ingredient)
   }
