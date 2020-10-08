@@ -22,4 +22,8 @@ export class RecipeDetailComponent implements OnInit {
   isRecipeSelected(){
     return this.recipe !== undefined;
   }
+
+  onAddToShoppingList(){
+    this.recipeService.onAddIngredientsToShoppingList(this.recipe.ingredients)
+  }
 }
