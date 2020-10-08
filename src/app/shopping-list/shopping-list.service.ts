@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { LoggingService } from '../logging.service';
 import { Ingredient } from '../shared/ingredient.model';
 
 @Injectable({
@@ -11,7 +12,10 @@ export class ShoppingListService {
     new Ingredient('npm', 6)
   ]
 
-  constructor() { }
+  constructor(
+    private loggingService:LoggingService) {
+      this.loggingService.logInBold('ShoppingListService.constructor()', 'blue')
+    }
 
   getIngredients() { return this.ingredients.slice()}
 

@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
+import { LoggingService } from '../logging.service';
 import { Ingredient } from '../shared/ingredient.model';
 import { Recipe } from './recipe.model';
 
@@ -28,7 +29,9 @@ export class RecipeService {
 
   recipeSelected = new EventEmitter<Recipe>();
 
-  constructor() { }
+  constructor(private loggingService: LoggingService) {
+    this.loggingService.logInBold('RecipeService.constructor()', 'red')
+   }
 
   getRecipes() { return this.recipes.slice() }
 

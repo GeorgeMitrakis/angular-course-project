@@ -13,13 +13,13 @@ export class RecipeDetailComponent implements OnInit {
   constructor(private recipeService:RecipeService) {
     this.recipeService.recipeSelected.subscribe(
       (recipeSelected:Recipe) => this.recipe = recipeSelected
-    )
+    );
   }
 
   ngOnInit(): void { 
   }
 
   isRecipeSelected(){
-    return this.recipe !== undefined
+    return this.recipe !== undefined;
   }
 }
