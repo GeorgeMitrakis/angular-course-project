@@ -8,20 +8,9 @@ import { Navtab } from '../shared/app-enums.model';
 })
 export class HeaderComponent implements OnInit {
   collapsed:boolean = true;
-  
-  @Output() tabClicked = new EventEmitter<Navtab>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
-  onRecipesClick() {
-    this.tabClicked.emit(Navtab.recipes)
-  }
-
-  onShoppingListClick(){
-    this.tabClicked.emit(Navtab.shoppingList)
-  }
-
 }

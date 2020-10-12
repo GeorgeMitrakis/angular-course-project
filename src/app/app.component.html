@@ -1,9 +1,10 @@
-<app-header (tabClicked)="onTabClicked($event)"></app-header>
+<app-header></app-header>
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-      <app-recipes *ngIf="isRecipesActive()"></app-recipes>
-      <app-shopping-list *ngIf="isShoppingListActive()"></app-shopping-list>
+      <router-outlet></router-outlet>
+      <!-- <app-recipes *ngIf="isRecipesActive()"></app-recipes> -->
+      <!-- <app-shopping-list *ngIf="isShoppingListActive()"></app-shopping-list> -->
     </div>
   </div> 
 </div> 
