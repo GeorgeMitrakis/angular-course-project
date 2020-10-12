@@ -7,6 +7,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeDetailEmptyComponent } from './recipes/recipe-detail-empty/recipe-detail-empty.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
+import { RecipeRouteIdValidityGuard } from './recipes/recipe-route-id-validity.guard';
 
 const appRoutes: Routes = [
   {
@@ -28,11 +29,13 @@ const appRoutes: Routes = [
       },
       {
         path:':id',
-        component: RecipeDetailComponent
+        component: RecipeDetailComponent,
+        canActivate: [RecipeRouteIdValidityGuard]
       },
       {
         path:':id/edit',
-        component: RecipeEditComponent
+        component: RecipeEditComponent,
+        canActivate: [RecipeRouteIdValidityGuard]
       }
     ]
   },
