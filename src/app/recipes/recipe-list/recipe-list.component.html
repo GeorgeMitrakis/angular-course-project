@@ -12,7 +12,7 @@
         <app-recipe-item 
             *ngFor="let recipeElem of recipes; let idx = index" 
             [recipeItem]="recipeElem"
-            [routerLink]="idx"
+            [index]="idx"
         >
         </app-recipe-item>
     </div>
