@@ -6,6 +6,7 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeDetailEmptyComponent } from './recipes/recipe-detail-empty/recipe-detail-empty.component';
+import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 
 const appRoutes: Routes = [
   {
@@ -22,8 +23,16 @@ const appRoutes: Routes = [
         component: RecipeDetailEmptyComponent
       },
       {
+        path:'new',
+        component: RecipeEditComponent
+      },
+      {
         path:':id',
         component: RecipeDetailComponent
+      },
+      {
+        path:':id/edit',
+        component: RecipeEditComponent
       }
     ]
   },
