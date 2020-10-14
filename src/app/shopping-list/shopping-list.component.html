@@ -8,6 +8,7 @@
                 style="cursor: pointer"
                 *ngFor="let ingredient of ingredients; let ingredientIndex = index"
                 (click)="onSelect(ingredientIndex)"
+                [ngClass]="{'active': selectedIngredientIndex === ingredientIndex}"
             >
                 {{ ingredient.name }} ({{ ingredient.amount }})
             </a>

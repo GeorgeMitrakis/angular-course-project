@@ -11,6 +11,7 @@ import { ShoppingListService } from './shopping-list.service';
 export class ShoppingListComponent implements OnInit, OnDestroy {
   private ingredientsChangedSub: Subscription;
   ingredients: Ingredient[]
+  selectedIngredientIndex: number;
 
 
   constructor(private shoppingListService: ShoppingListService) { }
@@ -22,7 +23,8 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     )
   }
   onSelect(ingredientIndex: number){
-    console.log(ingredientIndex)
+    // console.log(ingredientIndex)
+    this.selectedIngredientIndex = ingredientIndex
     this.shoppingListService.onIngredientSelectedByIndex(ingredientIndex)
   }
 
