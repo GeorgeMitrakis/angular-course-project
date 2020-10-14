@@ -35,6 +35,11 @@ export class ShoppingListService {
     this.ingredientsChanged.next(this.ingredients.slice())
   }
 
+  onIngredientDeleted(index: number){
+    this.ingredients.splice(index, 1)
+    this.ingredientsChanged.next(this.ingredients.slice())
+  }
+
   onIngredientSelectedByIndex(ingredientIndex: number){
     this.ingredientSelectedByIndex.next(ingredientIndex)
   }
