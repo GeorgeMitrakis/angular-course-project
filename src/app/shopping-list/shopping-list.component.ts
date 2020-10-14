@@ -21,6 +21,10 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
       (ingredients: Ingredient[]) => this.ingredients = ingredients
     )
   }
+  onSelect(ingredientIndex: number){
+    console.log(ingredientIndex)
+    this.shoppingListService.onIngredientSelectedByIndex(ingredientIndex)
+  }
 
   ngOnDestroy(){
     this.ingredientsChangedSub.unsubscribe()

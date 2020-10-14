@@ -1,5 +1,6 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { LoggingService } from 'src/app/logging.service';
 import { Ingredient } from 'src/app/shared/ingredient.model';
 import { ShoppingListService } from '../shopping-list.service';
@@ -9,16 +10,32 @@ import { ShoppingListService } from '../shopping-list.service';
   templateUrl: './shopping-edit.component.html',
   styleUrls: ['./shopping-edit.component.css']
 })
-export class ShoppingEditComponent implements OnInit {
+export class ShoppingEditComponent implements OnInit, OnDestroy {
   // @ViewChild('nameInput', {static:true}) ingredientName: ElementRef;
   // @ViewChild('amountInput', {static:true}) ingredientAmount: ElementRef;
-    
+  @ViewChild('shoppingListForm', {static:true}) shoppingListForm: NgForm;
+  editMode:boolean = false;
+  indexOfSelectedIngredient: number;
+  selectedIngredient: Ingredient;
+  indexSubscription: Subscription
+
   constructor(
     private shoppingListService: ShoppingListService,
     private logService:LoggingService
   ) { }
 
   ngOnInit(): void {
+    this.indexSubscription = this.shoppingListService.ingredientSelectedByIndex.subscribe(
+      (ingredientIndex: number) => {
+        this.editMode = true;
+        this.indexOfSelectedIngredient = ingredientIndex;
+        this.selectedIngredient = this.shoppingListService.getIngredient(ingredientIndex)
+        this.shoppingListForm.setValue({
+          ingredientName: this.selectedIngredient.name,
+          ingredientAmount: this.selectedIngredient.amount
+        });
+      }
+    )
   }
 
   // onAddIngredient(){
@@ -32,17 +49,44 @@ export class ShoppingEditComponent implements OnInit {
   //   }
   // }
 
-  onSubmit(shoppingListForm: NgForm) {
+  onSubmit() {
     this.logService.log('ShoppingEditComponent.onSubmit()', '#229999')
     // console.log(shoppingListForm)
 
+    if(this.editMode){
+      this.ingredientEdit()
+    }
+    else{
+      this.ingredientAdd()
+    }
+
+    this.shoppingListForm.reset()
+  }
+
+  ingredientAdd(){
     this.shoppingListService.onIngredientAdded(
       new Ingredient(
-        shoppingListForm.value.ingredientName,
-        shoppingListForm.value.ingredientAmount
+        this.shoppingListForm.value.ingredientName,
+        this.shoppingListForm.value.ingredientAmount
       )
     )
+  }
 
-    shoppingListForm.reset()
+  ingredientEdit(){
+    this.shoppingListService.onIngredientUpdated(
+      this.indexOfSelectedIngredient,
+      new Ingredient(
+        this.shoppingListForm.value.ingredientName,
+        this.shoppingListForm.value.ingredientAmount
+      )
+    )
+    this.editMode = false;
+  }
+
+
+
+
+  ngOnDestroy() {
+    this.indexSubscription.unsubscribe();
   }
 }

@@ -10,6 +10,8 @@ import { Ingredient } from '../shared/ingredient.model';
 export class ShoppingListService {
   // ingredientsChanged = new EventEmitter<Ingredient[]>();
   ingredientsChanged = new Subject<Ingredient[]>();
+  ingredientSelectedByIndex = new Subject<number>();
+
   ingredients: Ingredient[] = [
     new Ingredient('Apples', 13),
     new Ingredient('Tomatoes', 6)
@@ -19,11 +21,22 @@ export class ShoppingListService {
     this.loggingService.logInBold('ShoppingListService.constructor()', 'blue')
   }
 
+  getIngredient(index: number){ return this.ingredients[index] }
+
   getIngredients() { return this.ingredients.slice()}
 
   onIngredientAdded(ingredient: Ingredient){
     this.ingredients.push(ingredient)
     this.ingredientsChanged.next(this.ingredients.slice())
+  }
+
+  onIngredientUpdated(index: number, updatedIngredient: Ingredient){
+    this.ingredients[index] = updatedIngredient
+    this.ingredientsChanged.next(this.ingredients.slice())
+  }
+
+  onIngredientSelectedByIndex(ingredientIndex: number){
+    this.ingredientSelectedByIndex.next(ingredientIndex)
   }
 
   onIngredientsAdded(ingredients: Ingredient[]){
