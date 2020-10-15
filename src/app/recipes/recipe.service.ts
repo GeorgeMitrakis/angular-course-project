@@ -29,6 +29,7 @@ export class RecipeService {
       ]),
   ];
 
+  recipesChanged = new Subject<Recipe[]>()
   // recipeSelected = new EventEmitter<Recipe>();
   recipeSelected = new Subject<Recipe>();
 
@@ -42,5 +43,20 @@ export class RecipeService {
 
   onAddIngredientsToShoppingList(ingredients: Ingredient[]){
     this.shoppingListService.onIngredientsAdded(ingredients)
+  }
+
+  addRecipe(recipe: Recipe){
+    this.recipes.push(recipe)
+    this.recipesChanged.next(this.recipes.slice())
+  }
+
+  updateRecipe(index: number, recipe: Recipe){
+    this.recipes[index] = recipe
+    this.recipesChanged.next(this.recipes.slice())
+  }
+
+  deleteRecipe(index: number){
+    this.recipes.splice(index, 1)
+    this.recipesChanged.next(this.recipes.slice())
   }
 }
