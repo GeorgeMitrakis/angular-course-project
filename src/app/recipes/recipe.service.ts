@@ -35,8 +35,9 @@ export class RecipeService {
   constructor(private loggingService: LoggingService,
     private shoppingListService:ShoppingListService) {
     this.loggingService.logInBold('RecipeService.constructor()', 'red')
-   }
+  }
 
+  getRecipe(index: number){ return this.recipes[index] }
   getRecipes() { return this.recipes.slice() }
 
   onAddIngredientsToShoppingList(ingredients: Ingredient[]){
