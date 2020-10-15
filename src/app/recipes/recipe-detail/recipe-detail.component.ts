@@ -9,6 +9,7 @@ import { RecipeService } from '../recipe.service';
   styleUrls: ['./recipe-detail.component.css']
 })
 export class RecipeDetailComponent implements OnInit {
+  id: number
   recipe:Recipe
 
   constructor(
@@ -19,7 +20,10 @@ export class RecipeDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(
-      (params: Params) => this.recipe = this.recipeService.getRecipes()[Number(params['id'])]
+      (params: Params) => {
+        this.id = Number(params['id'])
+        this.recipe = this.recipeService.getRecipe(Number(params['id']))
+      }
     )
   }
 
@@ -29,5 +33,12 @@ export class RecipeDetailComponent implements OnInit {
 
   onEditRecipe(){
     this.router.navigate(['edit'], {relativeTo: this.route})
+  }
+
+  onDeleteRecipe(){
+    if(confirm(`The '${this.recipe.name}' recipe will be deleted. Proceed?`)){
+      this.recipeService.deleteRecipe(this.id)
+      this.router.navigate(['recipes'])
+    }
   }
 }
