@@ -26,43 +26,32 @@ export class RecipeEditComponent implements OnInit {
       (params: Params) => {
         this.id = Number(params['id']);
         this.editMode = (params['id'] !== undefined);
-        this.initForm();
+        if(this.editMode){
+          this.initForm(this.recipeService.getRecipe(this.id));
+        }
+        else{
+          // this.initForm(new Recipe('','','',[]));
+          this.initForm({name:'',imagePath:'',description:'', ingredients:[]});
+        }
 
         this.logService.log(`RecipeEditComponent.ngOnInit() -> isInEditMode : ${this.editMode}`, this.editMode ? 'green': 'red')
       }
     )
   }
 
-  private initForm(){    
-    if(this.editMode){
-
-      const recipe: Recipe = this.recipeService.getRecipe(this.id)
-      const ingredientsFormGroupsArray = (
-        recipe['ingredients'] ? 
-        recipe.ingredients.map((ingredient) => new FormGroup({ 
-            'name' : new FormControl(ingredient.name), 
+  private initForm({name, imagePath, description, ingredients}: Recipe){    
+    this.recipeForm = new FormGroup({
+      'name': new FormControl(name),
+      'imagePath': new FormControl(imagePath),
+      'description': new FormControl(description),
+      'ingredients': new FormArray(
+        ingredients.map((ingredient) => new FormGroup({
+            'name': new FormControl(ingredient.name),
             'amount': new FormControl(ingredient.amount)
           })
-        ) : []
+        )
       )
-
-      this.recipeForm = new FormGroup({
-        'name': new FormControl(recipe.name),
-        'imagePath': new FormControl(recipe.imagePath),
-        'description': new FormControl(recipe.description),
-        'ingredients': new FormArray(ingredientsFormGroupsArray)
-      })
-      
-    }
-    else{
-      this.recipeForm = new FormGroup({
-        'name': new FormControl(''),
-        'imagePath': new FormControl(''),
-        'description': new FormControl(''),
-        'ingredients': new FormArray([])
-      })
-    }
-    
+    })    
   }
 
   get controls() { // a getter!
