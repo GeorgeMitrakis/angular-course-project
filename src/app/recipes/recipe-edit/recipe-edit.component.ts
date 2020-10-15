@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LoggingService } from 'src/app/logging.service';
 import { Recipe } from '../recipe.model';
@@ -18,7 +18,8 @@ export class RecipeEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private logService: LoggingService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
@@ -40,18 +41,31 @@ export class RecipeEditComponent implements OnInit {
   }
 
   private initForm({name, imagePath, description, ingredients}: Recipe){    
-    this.recipeForm = new FormGroup({
-      'name': new FormControl(name),
-      'imagePath': new FormControl(imagePath),
-      'description': new FormControl(description),
-      'ingredients': new FormArray(
-        ingredients.map((ingredient) => new FormGroup({
-            'name': new FormControl(ingredient.name),
-            'amount': new FormControl(ingredient.amount)
+    this.recipeForm = this.fb.group({
+      'name': [name],
+      'imagePath': [imagePath],
+      'description': [description],
+      'ingredients': this.fb.array(
+        ingredients.map((ingredient) => this.fb.group({
+            'name': [ingredient.name],
+            'amount': [ingredient.amount]
           })
         )
       )
-    })    
+    })
+    
+    // this.recipeForm = new FormGroup({
+    //   'name': new FormControl(name),
+    //   'imagePath': new FormControl(imagePath),
+    //   'description': new FormControl(description),
+    //   'ingredients': new FormArray(
+    //     ingredients.map((ingredient) => new FormGroup({
+    //         'name': new FormControl(ingredient.name),
+    //         'amount': new FormControl(ingredient.amount)
+    //       })
+    //     )
+    //   )
+    // })   
   }
 
   get controls() { // a getter!
@@ -60,11 +74,17 @@ export class RecipeEditComponent implements OnInit {
 
   onAddIngredient(){
     (<FormArray>this.recipeForm.get('ingredients')).push(
-      new FormGroup({
-        'name': new FormControl(''),
-        'amount': new FormControl('')
+      this.fb.group({
+        'name': [''],
+        'amount': ['']
       })
     )
+    // (<FormArray>this.recipeForm.get('ingredients')).push(
+    //   new FormGroup({
+    //     'name': new FormControl(''),
+    //     'amount': new FormControl('')
+    //   })
+    // )
   }
 
   onSubmit(){
