@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, NgForm } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LoggingService } from 'src/app/logging.service';
 import { Recipe } from '../recipe.model';
@@ -42,13 +42,13 @@ export class RecipeEditComponent implements OnInit {
 
   private initForm({name, imagePath, description, ingredients}: Recipe){    
     this.recipeForm = this.fb.group({
-      'name': [name],
-      'imagePath': [imagePath],
-      'description': [description],
+      'name': [name, Validators.required],
+      'imagePath': [imagePath, Validators.required],
+      'description': [description, Validators.required],
       'ingredients': this.fb.array(
         ingredients.map((ingredient) => this.fb.group({
-            'name': [ingredient.name],
-            'amount': [ingredient.amount]
+            'name': [ingredient.name, Validators.required],
+            'amount': [ingredient.amount, [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]]
           })
         )
       )
@@ -75,8 +75,8 @@ export class RecipeEditComponent implements OnInit {
   onAddIngredient(){
     (<FormArray>this.recipeForm.get('ingredients')).push(
       this.fb.group({
-        'name': [''],
-        'amount': ['']
+        'name': ['', Validators.required],
+        'amount': ['', [Validators.required, Validators.pattern(/^[1-9]+[0-9]*$/)]]
       })
     )
     // (<FormArray>this.recipeForm.get('ingredients')).push(
