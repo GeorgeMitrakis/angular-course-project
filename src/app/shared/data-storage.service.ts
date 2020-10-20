@@ -24,8 +24,16 @@ export class DataStorageService {
         this.recipeService.getRecipes()
       )
       .subscribe(response => {
-        this.logService.logInBold('DataStorageService.storeRecipes()', 'black')
-        console.log(response)
+        this.logService.logInBold('DataStorageService.storeRecipes()', 'black');
+        console.log(response);
+      })
+  }
+
+  fetchRecipes(){
+    this.http
+      .get<Recipe[]>(this.url)
+      .subscribe(recipes => {
+        this.recipeService.setRecipes(recipes);
       })
   }
 }
