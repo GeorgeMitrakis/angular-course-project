@@ -9,12 +9,17 @@ import { RecipeDetailEmptyComponent } from './recipes/recipe-detail-empty/recipe
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeRouteIdValidityGuard } from './recipes/recipe-route-id-validity.guard';
 import { RecipesResolverService } from './recipes/recipes-resolver.service';
+import { AuthComponent } from './auth/auth.component';
 
 const appRoutes: Routes = [
   {
     path:'',
     pathMatch:'full',
     redirectTo:'/recipes'
+  },
+  {
+    path:'auth',
+    component:AuthComponent
   },
   {
     path:'recipes',
