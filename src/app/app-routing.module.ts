@@ -8,6 +8,7 @@ import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.com
 import { RecipeDetailEmptyComponent } from './recipes/recipe-detail-empty/recipe-detail-empty.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { RecipeRouteIdValidityGuard } from './recipes/recipe-route-id-validity.guard';
+import { RecipesResolverService } from './recipes/recipes-resolver.service';
 
 const appRoutes: Routes = [
   {
@@ -30,12 +31,14 @@ const appRoutes: Routes = [
       {
         path:':id',
         component: RecipeDetailComponent,
-        canActivate: [RecipeRouteIdValidityGuard]
+        resolve: [RecipesResolverService],
+        // canActivate: [RecipeRouteIdValidityGuard]
       },
       {
         path:':id/edit',
         component: RecipeEditComponent,
-        canActivate: [RecipeRouteIdValidityGuard]
+        resolve: [RecipesResolverService],
+        // canActivate: [RecipeRouteIdValidityGuard]
       }
     ]
   },

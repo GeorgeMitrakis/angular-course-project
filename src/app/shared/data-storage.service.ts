@@ -4,7 +4,7 @@ import { LoggingService } from '../logging.service';
 import { Recipe } from '../recipes/recipe.model';
 import { RecipeService } from '../recipes/recipe.service';
 
-import { map } from 'rxjs/operators'
+import { map, tap } from 'rxjs/operators'
 
 @Injectable({
   providedIn: 'root'
@@ -32,15 +32,15 @@ export class DataStorageService {
   }
 
   fetchRecipes(){
-    this.http
+    return this.http
       .get<Recipe[]>(this.url)
       .pipe(map(recipes => {  // rxjs map
         return recipes.map(recipe => {  // array map
           return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients: [] }
         })
-      }))
-      .subscribe(recipes => {
+      }),
+      tap(recipes => {
         this.recipeService.setRecipes(recipes);
-      })
+      }))
   }
 }
