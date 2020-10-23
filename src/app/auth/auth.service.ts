@@ -6,10 +6,13 @@ import { catchError, tap } from 'rxjs/operators'
 
 
 
-interface AuthResponseData{
+export interface AuthResponseData{
   idToken: string;
+  email:string;
   refreshToken: string;
   expiresIn: string;
+  localId:string;
+  registered?:boolean;
 }
 
 
@@ -50,5 +53,31 @@ export class AuthService {
         )
       )
     )
+  }
+
+  login(email: string, password:string){
+    const signInEndpoint = `${this.firebaseAPI}:${this.signInRoute}?key=${this.apiKey}`
+
+    return (
+      this.http.post<AuthResponseData>(
+        signInEndpoint,
+        {
+          email: email,
+          password: password,
+          returnSecureToken: true
+        }
+      )
+      .pipe(
+        catchError(
+          errorRes => {
+            if(!errorRes.error || !errorRes.error.error){
+              return throwError(errorRes)
+            }
+
+            return throwError(`Login error: ${errorRes.error.error.message.replace("_", " ").toLowerCase()}`)
+          }
+        )
+      )
+    ) 
   }
 }
