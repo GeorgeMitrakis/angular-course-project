@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
 
-import { tap } from 'rxjs/operators'
+import { catchError, tap } from 'rxjs/operators'
 
 
 
@@ -37,9 +38,17 @@ export class AuthService {
           returnSecureToken: true
         }
       )
-      .pipe(tap(event => {
-        console.log(event)
-      }))
+      .pipe(
+        catchError(
+          errorRes => {
+            if(!errorRes.error || !errorRes.error.error){
+              return throwError(errorRes)
+            }
+
+            return throwError(`Signup error: ${errorRes.error.error.message.replace("_", " ").toLowerCase()}`)
+          }
+        )
+      )
     )
   }
 }
