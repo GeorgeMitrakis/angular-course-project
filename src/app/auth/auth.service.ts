@@ -71,7 +71,11 @@ export class AuthService {
   }
 
   private handleAuthentication(resData: AuthResponseData){
-    const tokenExpirationDate = new Date(new Date().getTime() + Number(resData.expiresIn)*1000);
+
+    const tokenExpirationDate = new Date(
+      new Date().getTime() + Number(resData.expiresIn)*1000   //  current time + token lifespan returned from the API
+    );
+
     this.user.next(
       new User(
         resData.email,
