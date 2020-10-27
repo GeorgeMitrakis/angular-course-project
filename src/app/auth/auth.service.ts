@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 
 import { catchError, tap } from 'rxjs/operators'
@@ -30,7 +31,10 @@ export class AuthService {
 
   private apiKey = "AIzaSyBMrO8sRUxrABfyaYZUug4d9bVoq6-FiH4";
 
-  constructor(private http:HttpClient) { }
+  constructor(
+    private http:HttpClient,
+    private router: Router
+  ) { }
 
   signup(email: string, password: string){
     const signUpEndpoint = `${this.firebaseAPI}:${this.signUpRoute}?key=${this.apiKey}`
@@ -70,6 +74,11 @@ export class AuthService {
         tap(resData => this.handleAuthentication(resData))
       )
     ) 
+  }
+
+  logout(){
+    this.user.next(new GuestUser())
+    this.router.navigate(['/auth'])
   }
 
   private handleAuthentication(resData: AuthResponseData){
