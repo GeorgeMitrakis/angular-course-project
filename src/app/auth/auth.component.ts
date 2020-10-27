@@ -62,4 +62,9 @@ export class AuthComponent implements OnInit {
     authForm.reset()
   }
 
+  onAlertClose(){
+    this.errorExists = false;
+    this.errorMsg = '';
+  }
+
 }
