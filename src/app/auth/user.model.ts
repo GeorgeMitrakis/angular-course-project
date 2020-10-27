@@ -7,6 +7,12 @@ export abstract class User{
     }
 }
 
+export class AdminUser extends User{
+    constructor(){
+        super(UserRole.Admin);
+    }
+}
+
 export class SimpleUser extends User{
     constructor(
         public email: string,

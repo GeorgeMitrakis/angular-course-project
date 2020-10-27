@@ -4,7 +4,8 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 
 import { catchError, tap } from 'rxjs/operators'
-import { SimpleUser, User, GuestUser } from './user.model';
+import { UserRole } from './user-role.enum';
+import { SimpleUser, User, GuestUser, AdminUser } from './user.model';
 
 
 
@@ -76,6 +77,42 @@ export class AuthService {
     ) 
   }
 
+  autoLogin(){
+    const userData: {
+      role:string,
+      email: string,
+      id: string,
+      _token: string,
+      _tokenExpirationDate: string
+    } = JSON.parse(localStorage.getItem('userData'))
+    if(!userData){
+      return;
+    }
+
+    let loadedUser: User;
+
+    switch(userData.role){
+      case(UserRole.Admin):
+        loadedUser = new AdminUser();
+        break;
+      case(UserRole.Simple):
+        loadedUser = new SimpleUser(
+          userData.email,
+          userData.id,
+          userData._token,
+          new Date(userData._tokenExpirationDate)
+        );
+        break;
+      case(UserRole.Guest):
+        loadedUser = new GuestUser()
+        break;
+      default:
+        loadedUser = new GuestUser()
+    }
+
+    this.user.next(loadedUser);
+  }
+
   logout(){
     this.user.next(new GuestUser())
     this.router.navigate(['/auth'])
@@ -87,21 +124,23 @@ export class AuthService {
       new Date().getTime() + Number(resData.expiresIn)*1000   //  current time + token lifespan returned from the API
     );
 
-    this.user.next(
-      new SimpleUser(
-        resData.email,
-        resData.localId,
-        resData.idToken,
-        tokenExpirationDate
-      )
-    )
+    const user = new SimpleUser(
+      resData.email,
+      resData.localId,
+      resData.idToken,
+      tokenExpirationDate
+    );
+
+    this.user.next(user);
+
+    localStorage.setItem('userData', JSON.stringify(user));
   }
 
   private handleError(errorRes: HttpErrorResponse){
-    console.log(errorRes)
+    console.log(errorRes);
     let errorMessage: string = 'An unknown error occured!';
     if(!errorRes.error || !errorRes.error.error){
-      return throwError(errorMessage)
+      return throwError(errorMessage);
     }
 
     switch(errorRes.error.error.message){
@@ -116,7 +155,7 @@ export class AuthService {
         break;          
     }
 
-    return throwError(errorMessage)
+    return throwError(errorMessage);
 
   }
 }
