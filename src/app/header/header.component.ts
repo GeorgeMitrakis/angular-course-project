@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
 import { Navtab } from '../shared/app-enums.model';
 import { DataStorageService } from '../shared/data-storage.service';
 
@@ -10,7 +11,10 @@ import { DataStorageService } from '../shared/data-storage.service';
 export class HeaderComponent implements OnInit {
   collapsed:boolean = true;
 
-  constructor(private dataStorageService: DataStorageService) { }
+  constructor(
+    private dataStorageService: DataStorageService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
   }

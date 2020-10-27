@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject, throwError } from 'rxjs';
 
 import { catchError, tap } from 'rxjs/operators'
-import { User } from './user.model';
+import { SimpleUser, User, GuestUser } from './user.model';
 
 
 
@@ -65,7 +65,8 @@ export class AuthService {
       )
       .pipe(
         catchError(this.handleError),
-        tap(this.handleAuthentication)
+        // tap(this.handleAuthentication.bind(this))
+        tap(resData => this.handleAuthentication(resData))
       )
     ) 
   }
@@ -77,7 +78,7 @@ export class AuthService {
     );
 
     this.user.next(
-      new User(
+      new SimpleUser(
         resData.email,
         resData.localId,
         resData.idToken,
