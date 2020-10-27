@@ -46,7 +46,8 @@ export class AuthService {
       )
       .pipe(
           catchError(this.handleError),
-          tap(this.handleAuthentication)
+          // tap(this.handleAuthentication.bind(this))
+          tap(resData => this.handleAuthentication(resData))
       )
     )
   }
