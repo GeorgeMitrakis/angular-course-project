@@ -35,25 +35,18 @@ export class DataStorageService {
   }
 
   fetchRecipes(){
-    return this.authService.user
-      .pipe(
-        take(1), // take only 1 value from an observable, then unsubscribe
-        exhaustMap((user: SimpleUser) => {  // used to return an http get<> observable instead of a user one
-          return this.http.get<Recipe[]>(
-            this.url,
-            {
-              params: new HttpParams().set('auth', user.token)
-            }
-          )          
-        }),
-        map(recipes => {  // rxjs map
-          return recipes.map(recipe => {  // array map
-            return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients: [] }
-          })
-        }),
-        tap(recipes => {
-          this.recipeService.setRecipes(recipes);
+    return this.http.get<Recipe[]>(
+      this.url
+    )
+    .pipe(
+      map(recipes => {  // rxjs map
+        return recipes.map(recipe => {  // array map
+          return {...recipe, ingredients: recipe.ingredients ? recipe.ingredients: [] }
         })
-      )
+      }),
+      tap(recipes => {
+        this.recipeService.setRecipes(recipes);
+      })
+    )
   }
 }
