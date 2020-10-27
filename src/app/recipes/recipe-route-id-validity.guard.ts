@@ -32,7 +32,7 @@ export class RecipeRouteIdValidityGuard implements CanActivate {
         return true
     }
     else{
-      this.router.navigate(['/error-page'])
+      this.router.createUrlTree(['/error-page'])
     }
   }
   
