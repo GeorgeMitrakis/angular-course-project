@@ -18,7 +18,7 @@ export class ShoppingListService {
   ]
 
   constructor(private loggingService:LoggingService) {
-    this.loggingService.logInBold('ShoppingListService.constructor()', 'blue')
+    this.loggingService.logInBold('ShoppingListService.constructor()', 'velvet')
   }
 
   getIngredient(index: number){ return this.ingredients[index] }

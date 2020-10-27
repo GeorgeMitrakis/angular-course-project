@@ -24,6 +24,7 @@ export interface AuthResponseData{
 })
 export class AuthService {
   user = new BehaviorSubject<User>(new GuestUser());
+  private tokenExpirationTimer: any = null;
 
   private firebaseAPI = "https://identitytoolkit.googleapis.com/v1/accounts";
   
@@ -104,24 +105,51 @@ export class AuthService {
         );
         break;
       case(UserRole.Guest):
-        loadedUser = new GuestUser()
+        loadedUser = new GuestUser();
         break;
       default:
-        loadedUser = new GuestUser()
+        loadedUser = new GuestUser();
     }
 
-    this.user.next(loadedUser);
+    if(loadedUser.role === UserRole.Simple && !(<SimpleUser>loadedUser).isUserTokenExpired()){
+      // if user is simple and has a valid token
+      this.user.next(loadedUser);
+      this.setAutoLogoutTimer(
+        new Date((<SimpleUser>loadedUser).token).getTime() - new Date().getTime()
+      )
+    }
+    else if(loadedUser.role === UserRole.Simple){
+      // if user is simple and the token is invalid
+      this.user.next(new GuestUser());
+    }
+    else{
+      // if user is admin or guest
+      this.user.next(loadedUser);
+    }
   }
 
   logout(){
     this.user.next(new GuestUser())
-    this.router.navigate(['/auth'])
+    this.router.navigate(['/auth']);
+    localStorage.removeItem('userData');
+
+    if(this.tokenExpirationTimer){
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
+  }
+
+  setAutoLogoutTimer(expirationDuration: number){
+    this.tokenExpirationTimer = setTimeout(() => {
+      this.logout();
+    }, expirationDuration);
   }
 
   private handleAuthentication(resData: AuthResponseData){
 
+    const tokenLifespan: number = Number(resData.expiresIn)*1000;
     const tokenExpirationDate = new Date(
-      new Date().getTime() + Number(resData.expiresIn)*1000   //  current time + token lifespan returned from the API
+      new Date().getTime() + tokenLifespan  //  current time + token lifespan returned from the API
     );
 
     const user = new SimpleUser(
@@ -132,6 +160,7 @@ export class AuthService {
     );
 
     this.user.next(user);
+    this.setAutoLogoutTimer(tokenLifespan)
 
     localStorage.setItem('userData', JSON.stringify(user));
   }
