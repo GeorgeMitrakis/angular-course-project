@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate{
         this.logService.logInBold('AuthGuard.canActivate()','green')
 
         return this.authService.user.pipe(
-            take(1),    // emit user Subject only once per Guard run. avoids nasty bugs
+            take(1),    // emit user Subject only once per Guard run, and unsubscribe. avoids nasty bugs
             map((user: User) => {
                 const isAuth = (user.role !== UserRole.Guest && !(<SimpleUser>user).isUserTokenExpired())
                 if(isAuth){
