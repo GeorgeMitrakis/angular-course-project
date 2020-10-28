@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared/shared.module';
 
 import { RecipeDetailEmptyComponent } from './recipe-detail-empty/recipe-detail-empty.component';
 import { RecipeDetailComponent } from './recipe-detail/recipe-detail.component';
@@ -21,10 +22,11 @@ import { RecipesComponent } from './recipes.component';
         RecipeEditComponent,
     ],
     imports:[
-        CommonModule,   // instead of BrowserModule, which must be imported only to the AppModule
+        // CommonModule,   // instead of BrowserModule, which must be imported only to the AppModule
         // RouterModule,
         ReactiveFormsModule,
-        RecipesRoutingModule
+        RecipesRoutingModule,
+        SharedModule
     ]
 })
 export class RecipesModule{}
