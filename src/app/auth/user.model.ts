@@ -30,6 +30,10 @@ export class SimpleUser extends User{
         return this._token;
     }
 
+    get tokenExpirationDate(): Date{
+        return this._tokenExpirationDate;
+    }
+
     isUserTokenExpired(): boolean {
         return (new Date() > this._tokenExpirationDate);
     }

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Subject, throwError } from 'rxjs';
 
 import { catchError, tap } from 'rxjs/operators'
+import { LoggingService } from '../logging.service';
 import { UserRole } from './user-role.enum';
 import { SimpleUser, User, GuestUser, AdminUser } from './user.model';
 
@@ -35,8 +36,11 @@ export class AuthService {
 
   constructor(
     private http:HttpClient,
-    private router: Router
-  ) { }
+    private router: Router,
+    private logService: LoggingService
+  ) {
+    this.logService.logInBold('AuthService.constructor()', 'BurlyWood')
+  }
 
   signup(email: string, password: string){
     const signUpEndpoint = `${this.firebaseAPI}:${this.signUpRoute}?key=${this.apiKey}`
@@ -79,20 +83,27 @@ export class AuthService {
   }
 
   autoLogin(){
-    const userData: {
-      role:string,
+    const userData:
+    {
+      _role:string,
       email: string,
       id: string,
       _token: string,
       _tokenExpirationDate: string
     } = JSON.parse(localStorage.getItem('userData'))
+
+    // this.logService.logInBold('AuthService.autoLogin() : userData:', 'BurlyWood')
+    // console.log(userData)
+
     if(!userData){
       return;
     }
 
+    this.logService.logInBold(`AuthService.autoLogin() -> ${userData._role} user`, 'BurlyWood')
+
     let loadedUser: User;
 
-    switch(userData.role){
+    switch(userData._role){
       case(UserRole.Admin):
         loadedUser = new AdminUser();
         break;
@@ -113,17 +124,23 @@ export class AuthService {
 
     if(loadedUser.role === UserRole.Simple && !(<SimpleUser>loadedUser).isUserTokenExpired()){
       // if user is simple and has a valid token
+      this.logService.logInBold('AuthService.autoLogin() -> simple user with valid token', 'BurlyWood')
+      
       this.user.next(loadedUser);
       this.setAutoLogoutTimer(
-        new Date((<SimpleUser>loadedUser).token).getTime() - new Date().getTime()
+        new Date((<SimpleUser>loadedUser).tokenExpirationDate).getTime() - new Date().getTime()
       )
     }
     else if(loadedUser.role === UserRole.Simple){
       // if user is simple and the token is invalid
+      this.logService.logInBold('AuthService.autoLogin() -> simple user with invalid token', 'BurlyWood')
+      
       this.user.next(new GuestUser());
     }
     else{
       // if user is admin or guest
+      this.logService.logInBold(`AuthService.autoLogin() -> ${loadedUser.role} user`, 'BurlyWood')
+      
       this.user.next(loadedUser);
     }
   }
