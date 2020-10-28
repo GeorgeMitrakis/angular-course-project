@@ -22,7 +22,7 @@ import { RecipesComponent } from './recipes.component';
     ],
     imports:[
         CommonModule,   // instead of BrowserModule, which must be imported only to the AppModule
-        RouterModule,
+        // RouterModule,
         ReactiveFormsModule,
         RecipesRoutingModule
     ]
