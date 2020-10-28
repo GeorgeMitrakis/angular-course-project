@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class LoggingService {
 
-  constructor() {console.log(`%c LoggingService.constructor()`, `color: darkgrey; font-weight: bold;`)}
+  constructor() {console.log(`%c LoggingService.constructor()`, `color: cornflowerblue; font-weight: bold;`)}
 
   log(message: string, color: string, fontWeight?:string){
     if(!fontWeight){
