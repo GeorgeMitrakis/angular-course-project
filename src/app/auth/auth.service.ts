@@ -1,12 +1,14 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, throwError } from 'rxjs';
 
 import { catchError, tap } from 'rxjs/operators'
 import { LoggingService } from '../logging.service';
 import { UserRole } from './user-role.enum';
 import { SimpleUser, User, GuestUser, AdminUser } from './user.model';
+
+import { environment } from '../../environments/environment';
 
 
 
@@ -32,7 +34,7 @@ export class AuthService {
   private signUpRoute = "signUp";
   private signInRoute = "signInWithPassword";
 
-  private apiKey = "AIzaSyBMrO8sRUxrABfyaYZUug4d9bVoq6-FiH4";
+  // private apiKey = "AIzaSyBMrO8sRUxrABfyaYZUug4d9bVoq6-FiH4";
 
   constructor(
     private http:HttpClient,
@@ -43,7 +45,7 @@ export class AuthService {
   }
 
   signup(email: string, password: string){
-    const signUpEndpoint = `${this.firebaseAPI}:${this.signUpRoute}?key=${this.apiKey}`
+    const signUpEndpoint = `${this.firebaseAPI}:${this.signUpRoute}?key=${environment.firebaseAPIKey}`
 
     return (
       this.http.post<AuthResponseData>(
@@ -63,7 +65,7 @@ export class AuthService {
   }
 
   login(email: string, password:string){
-    const signInEndpoint = `${this.firebaseAPI}:${this.signInRoute}?key=${this.apiKey}`
+    const signInEndpoint = `${this.firebaseAPI}:${this.signInRoute}?key=${environment.firebaseAPIKey}`
 
     return (
       this.http.post<AuthResponseData>(
