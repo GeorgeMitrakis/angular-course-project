@@ -16,6 +16,7 @@ import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinne
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AlertComponent } from './shared/alert/alert.component';
 import { RecipesModule } from './recipes/recipes.module';
+import { ErrorPageModule } from './error-page/error-page.module';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +35,8 @@ import { RecipesModule } from './recipes/recipes.module';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RecipesModule
+    RecipesModule,
+    ErrorPageModule,  // order matters, because of the wildcard routes !!!
   ],
   providers: [
     {
