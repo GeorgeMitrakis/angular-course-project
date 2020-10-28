@@ -13,11 +13,11 @@ export class AuthInterceptor implements HttpInterceptor {
         private authService: AuthService,
         private logService: LoggingService
     ){
-        this.logService.logInBold('AuthInterceptor.constructor()', 'violet')
+        this.logService.log('AuthInterceptor.constructor()', 'violet', 'bold')
     }
 
     intercept(req: HttpRequest<any>, next: HttpHandler){
-        this.logService.logInBold('AuthInterceptor.intercept()', 'violet')
+        this.logService.log('AuthInterceptor.intercept()', 'violet', 'bold')
         return this.authService.user
             .pipe(
                 take(1), // take only 1 value from an observable, then unsubscribe

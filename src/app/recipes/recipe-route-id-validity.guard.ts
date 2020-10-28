@@ -18,9 +18,9 @@ export class RecipeRouteIdValidityGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
-    this.logService.logInBold('RecipeRouteIdValidityGuard.canActivate() -> ActivatedRouteSnapshot','purple')
+    this.logService.log('RecipeRouteIdValidityGuard.canActivate() -> ActivatedRouteSnapshot','purple', 'bold')
     console.log(route)
-    this.logService.logInBold('RecipeRouteIdValidityGuard.canActivate() -> RouterStateSnapshot','purple')
+    this.logService.log('RecipeRouteIdValidityGuard.canActivate() -> RouterStateSnapshot','purple', 'bold')
     console.log(state)
     
     const recipesAmount: number = this.recipeService.getRecipes().length

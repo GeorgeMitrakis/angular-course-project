@@ -39,7 +39,7 @@ export class AuthService {
     private router: Router,
     private logService: LoggingService
   ) {
-    this.logService.logInBold('AuthService.constructor()', 'BurlyWood')
+    this.logService.log('AuthService.constructor()', 'BurlyWood', 'bold')
   }
 
   signup(email: string, password: string){
@@ -92,14 +92,14 @@ export class AuthService {
       _tokenExpirationDate: string
     } = JSON.parse(localStorage.getItem('userData'))
 
-    // this.logService.logInBold('AuthService.autoLogin() : userData:', 'BurlyWood')
+    // this.logService.log('AuthService.autoLogin() : userData:', 'BurlyWood', 'bold')
     // console.log(userData)
 
     if(!userData){
       return;
     }
 
-    this.logService.logInBold(`AuthService.autoLogin() -> ${userData._role} user`, 'BurlyWood')
+    this.logService.log(`AuthService.autoLogin() -> ${userData._role} user`, 'BurlyWood', 'bold')
 
     let loadedUser: User;
 
@@ -124,7 +124,7 @@ export class AuthService {
 
     if(loadedUser.role === UserRole.Simple && !(<SimpleUser>loadedUser).isUserTokenExpired()){
       // if user is simple and has a valid token
-      this.logService.logInBold('AuthService.autoLogin() -> simple user with valid token', 'BurlyWood')
+      this.logService.log('AuthService.autoLogin() -> simple user with valid token', 'BurlyWood', 'bold')
       
       this.user.next(loadedUser);
       this.setAutoLogoutTimer(
@@ -133,13 +133,13 @@ export class AuthService {
     }
     else if(loadedUser.role === UserRole.Simple){
       // if user is simple and the token is invalid
-      this.logService.logInBold('AuthService.autoLogin() -> simple user with invalid token', 'BurlyWood')
+      this.logService.log('AuthService.autoLogin() -> simple user with invalid token', 'BurlyWood', 'bold')
       
       this.user.next(new GuestUser());
     }
     else{
       // if user is admin or guest
-      this.logService.logInBold(`AuthService.autoLogin() -> ${loadedUser.role} user`, 'BurlyWood')
+      this.logService.log(`AuthService.autoLogin() -> ${loadedUser.role} user`, 'BurlyWood', 'bold')
       
       this.user.next(loadedUser);
     }

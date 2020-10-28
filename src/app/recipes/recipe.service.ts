@@ -36,7 +36,7 @@ export class RecipeService {
 
   constructor(private loggingService: LoggingService,
     private shoppingListService:ShoppingListService) {
-    this.loggingService.logInBold('RecipeService.constructor()', 'red')
+    this.loggingService.log('RecipeService.constructor()', 'red', 'bold')
   }
 
   getRecipe(index: number){ return this.recipes[index] }

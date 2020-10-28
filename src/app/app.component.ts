@@ -14,11 +14,11 @@ export class AppComponent implements OnInit{
     private logService: LoggingService,
     private authService: AuthService
   ){
-    this.logService.logInBold('AppComponent.constructor()', 'blue');
+    this.logService.log('AppComponent.constructor()', 'blue', 'bold');
   }
 
   ngOnInit() {
-    this.logService.logInBold('AppComponent.ngOnInit()', 'blue');
+    this.logService.log('AppComponent.ngOnInit()', 'blue', 'bold');
     this.authService.autoLogin();
   }
 }

@@ -15,11 +15,11 @@ export class RecipesResolverService implements Resolve<Recipe[]> {
     private recipeService: RecipeService,
     private logService: LoggingService
   ) { 
-    this.logService.logInBold('RecipesResolverService.constructor()', 'pink')
+    this.logService.log('RecipesResolverService.constructor()', 'pink', 'bold')
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot){
-    this.logService.logInBold('RecipesResolverService.resolve()', 'pink')
+    this.logService.log('RecipesResolverService.resolve()', 'pink', 'bold')
     
     return (
       (this.recipeService.getRecipes().length === 0) ?

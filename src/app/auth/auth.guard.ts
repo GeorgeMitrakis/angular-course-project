@@ -17,7 +17,7 @@ export class AuthGuard implements CanActivate{
         private logService: LoggingService,
         private router: Router
     ){
-        this.logService.logInBold('AuthGuard.constructor()','green')
+        this.logService.log('AuthGuard.constructor()','green', 'bold')
     }
 
     canActivate(
@@ -25,12 +25,12 @@ export class AuthGuard implements CanActivate{
         state: RouterStateSnapshot
     ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-        this.logService.logInBold('AuthGuard.canActivate()','green')
+        this.logService.log('AuthGuard.canActivate()','green', 'bold')
 
         return this.authService.user.pipe(
             take(1),    // emit user Subject only once per Guard run, and unsubscribe. avoids nasty bugs
             tap(user => {
-                this.logService.logInBold('AuthGuard.canActivate() -> user: ','green')
+                this.logService.log('AuthGuard.canActivate() -> user: ','green', 'bold')
                 console.log(user)
             }),
             map((user: User) => {

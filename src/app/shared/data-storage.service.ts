@@ -29,7 +29,7 @@ export class DataStorageService {
         this.recipeService.getRecipes()
       )
       .subscribe(response => {
-        this.logService.logInBold('DataStorageService.storeRecipes()', 'black');
+        this.logService.log('DataStorageService.storeRecipes()', 'black', 'bold');
         console.log(response);
       })
   }
