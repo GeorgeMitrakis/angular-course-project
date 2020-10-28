@@ -1,5 +1,11 @@
 # AngularCourseProject
 
+This is the project of the [Angular - The complete guide](https://www.udemy.com/course/the-complete-guide-to-angular-2/) course, created by [Maximilian Schwarzmüller](https://www.udemy.com/user/maximilian-schwarzmuller/).
+
+It is a recipe book app that allows the user to login, load and store their recipes and use a shopping list to buy ingredients for those recipes.
+
+It was developed throughout the course to help understand the Angular framework and its tools, such as Components, Databinding, Directives, Forms, Services, Dependency Injection, Routing, Observables, Authentication, Guards, Interceptors, Modules and more.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.3.
 
 ## Development server
