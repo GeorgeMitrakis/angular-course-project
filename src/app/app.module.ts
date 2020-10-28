@@ -13,20 +13,19 @@ import { ErrorPageModule } from './error-page/error-page.module';
 import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core.module';
+import { AuthModule } from './auth/auth.module';
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    AuthComponent
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
     HttpClientModule,
     CoreModule,
     SharedModule,
+    AuthModule,
     RecipesModule,
     ShoppingListModule,
     ErrorPageModule  // order matters, because of the wildcard routes !!!
