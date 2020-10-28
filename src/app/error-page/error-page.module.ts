@@ -16,6 +16,7 @@ const routes: Routes = [
 ]
 
 @NgModule({
+    declarations:[ErrorPageComponent],
     imports:[RouterModule.forChild(routes)],
     exports:[RouterModule]
 })

@@ -24,7 +24,6 @@ import { ErrorPageModule } from './error-page/error-page.module';
     ShoppingListComponent,
     ShoppingEditComponent,
     DropdownDirective,
-    ErrorPageComponent,
     AuthComponent,
     LoadingSpinnerComponent,
     AlertComponent
