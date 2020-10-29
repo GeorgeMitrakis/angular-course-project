@@ -6,6 +6,10 @@ It is a recipe book app that allows the user to login, load and store their reci
 
 It was developed throughout the course to help understand the Angular framework and its tools, such as Components, Databinding, Directives, Forms, Services, Dependency Injection, Routing, Observables, Authentication, Guards, Interceptors, Modules and more.
 
+Its deployed version can be found in the following URL:
+
+https://angular-complete-guide-4167f.web.app/
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.3.
 
 ## Development server
