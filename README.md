@@ -26,7 +26,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Deploy
 
-Run `npm install -g firebase-tools` on your machine for manual deployment.
+The project gets deployed on: https://angular-complete-guide-4167f.web.app/ via the `ng deploy` command.
 
 ## Running unit tests
 

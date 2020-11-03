@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "angular-complete-guide-4167f"
+  },
+  "targets": {
+    "angular-complete-guide-4167f": {
+      "hosting": {
+        "angular-course-project": [
+          "angular-complete-guide-4167f"
+        ]
+      }
+    }
   }
 }
